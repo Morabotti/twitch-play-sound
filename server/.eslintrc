@@ -1,0 +1,9 @@
+{
+  "extends": "jubic-typescript",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "import/no-duplicates": 0,
+  }
+}
