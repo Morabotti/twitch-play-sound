@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "twitch-play-sound-server",
   "author": "Jesse Båtman (http://jessebatman.fi)",
-  "private": true,
   "main": "src/server.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Morabotti/twitch-play-sound.git"
+  },
   "scripts": {
     "start": "node --inspect=5858 -r ts-node/register ./src/index.ts",
     "dev": "nodemon",
@@ -28,7 +31,7 @@
     "exec": "npm start",
     "ext": "ts"
   },
-  "license": "private",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.18.3",
     "dotenv": "^7.0.0",
