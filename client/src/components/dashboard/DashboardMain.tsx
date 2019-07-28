@@ -1,7 +1,11 @@
 import React from 'react'
+import { BrowserRouter } from 'react-router-dom'
+import { Navigation } from '.'
 
 export default () => {
   return (
-    <h2> Dashboard </h2>
+    <BrowserRouter>
+      <Navigation />
+    </BrowserRouter>
   )
 }

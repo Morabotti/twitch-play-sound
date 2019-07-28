@@ -10,9 +10,9 @@ import { PlayerMain } from './player'
 
 const App = () => (
   <MuiThemeProvider theme={theme}>
+    <CssBaseline />
     <BrowserRouter>
       <Switch>
-        <CssBaseline />
         <Redirect from='/' to='/dashboard' exact />
         <Route path='/dashboard/' component={() => <DashboardMain />} />
         <Route path='/player/' component={() => <PlayerMain />} />
