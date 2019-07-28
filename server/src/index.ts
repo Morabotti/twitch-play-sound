@@ -8,6 +8,8 @@ import {
 } from 'express'
 
 import EndPoints from './endpoints'
+import config from './config'
+import { migrateSoundDatabase } from './migration'
 
 const app: Application = express()
 
@@ -22,4 +24,7 @@ app.get('*', (req: Request, res: Response) => {
   res.sendFile(path.resolve('..', 'client', 'build', 'index.html'))
 })
 
-export default app
+app.listen(config.port, async () => {
+  await migrateSoundDatabase()
+  console.log(`Server listening on port ${config.port}`)
+})
