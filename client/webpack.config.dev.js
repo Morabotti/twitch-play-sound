@@ -74,7 +74,7 @@ module.exports = {
       '/api': {
         target: 'http://localhost:8080'
       },
-      '/static': {
+      '/data': {
         target: 'http://localhost:8080'
       }
     },

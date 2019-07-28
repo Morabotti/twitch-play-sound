@@ -8,6 +8,7 @@
   },
   "globals": {
     "fetch": false,
-    "FormData": false
+    "FormData": false,
+    "Audio": false
   }
 }

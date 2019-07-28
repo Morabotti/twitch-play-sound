@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { Home, Menu, MusicNote } from 'mdi-material-ui'
+import { Home, Menu, MusicNote, Fire } from 'mdi-material-ui'
 import { Switch, Route, Link } from 'react-router-dom'
 import { useRouter } from '../../hooks'
 import clsx from 'clsx'
 
 import HomePage from './HomePage'
 import SoundPage from './SoundPage'
+import ConnectionPage from './ConnectionPage'
 
 import {
   AppBar,
@@ -34,6 +35,12 @@ const routes = [
     path: '/dashboard/sounds',
     icon: MusicNote,
     component: SoundPage
+  },
+  {
+    name: 'Connections',
+    path: '/dashboard/connection',
+    icon: Fire,
+    component: ConnectionPage
   }
 ]
 

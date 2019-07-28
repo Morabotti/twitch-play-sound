@@ -5,6 +5,8 @@ import SoundPage from './SoundPage'
 import Layout from './Layout'
 import SoundTable from './SoundTable'
 import NewSoundDialog from './NewSoundDialog'
+import IconHelper from './IconHelper'
+import ConnectionPage from './ConnectionPage'
 
 export {
   Navigation,
@@ -13,5 +15,7 @@ export {
   SoundPage,
   Layout,
   SoundTable,
-  NewSoundDialog
+  NewSoundDialog,
+  IconHelper,
+  ConnectionPage
 }

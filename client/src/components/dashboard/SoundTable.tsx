@@ -1,4 +1,6 @@
 import React from 'react'
+import { IconHelper } from '.'
+import clsx from 'clsx'
 
 import {
   Sound
@@ -15,10 +17,11 @@ import {
   Theme,
   LinearProgress,
   IconButton,
-  Tooltip
+  Tooltip,
+  Typography as T
 } from '@material-ui/core'
 
-import { DeleteOutline } from 'mdi-material-ui'
+import { DeleteOutline, Play, Pencil } from 'mdi-material-ui'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,6 +37,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     iconOffset: {
       marginRight: theme.spacing(2)
+    },
+    accessText: {
+      display: 'inline-flex',
+      verticalAlign: 'super',
+      marginLeft: theme.spacing(1.5)
     }
   })
 )
@@ -57,6 +65,13 @@ export default ({
     )
   }
 
+  const _playSound = (url: string) => () => {
+    const fixed = `/${url}`
+    const audio = new Audio(fixed)
+    audio.volume = 0.5
+    audio.play()
+  }
+
   return (
     <Table className={classes.table}>
       <TableHead>
@@ -75,9 +90,28 @@ export default ({
             <TableCell component='th' scope='row'>
               {sound.command}
             </TableCell>
-            <TableCell>{sound.access}</TableCell>
+            <TableCell>
+              <IconHelper access={sound.access} />
+              <T className={classes.accessText}>{sound.access}</T>
+            </TableCell>
             <TableCell align='right'>
               <div className='inv-actions' style={{ float: 'right' }}>
+                <Tooltip placement='top' title='Play sound'>
+                  <IconButton
+                    className={clsx(classes.small, classes.iconOffset)}
+                    onClick={_playSound(sound.path)}
+                  >
+                    <Play />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip placement='top' title='Edit sound'>
+                  <IconButton
+                    className={clsx(classes.small, classes.iconOffset)}
+                    onClick={() => null}
+                  >
+                    <Pencil />
+                  </IconButton>
+                </Tooltip>
                 <Tooltip placement='top' title='Delete sound'>
                   <IconButton
                     className={classes.small}
