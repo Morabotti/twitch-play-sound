@@ -5,8 +5,7 @@ import {
   Paper,
   makeStyles,
   createStyles,
-  Theme,
-  Divider
+  Theme
 } from '@material-ui/core'
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -21,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 interface Props {
-  title: string
+  title: string,
   children: JSX.Element | JSX.Element[]
 }
 
@@ -31,7 +30,6 @@ export default ({ title, children }: Props) => {
   return (
     <Paper elevation={1} className={classes.paper}>
       <T variant='h3'>{title}</T>
-      <Divider />
       {children}
     </Paper>
   )

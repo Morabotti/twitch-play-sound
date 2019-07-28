@@ -4,6 +4,7 @@ import { hot } from 'react-hot-loader'
 import { CssBaseline, MuiThemeProvider } from '@material-ui/core'
 
 import theme from '../theme'
+import '../index.less'
 
 import { DashboardMain } from './dashboard'
 import { PlayerMain } from './player'

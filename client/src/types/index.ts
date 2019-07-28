@@ -2,13 +2,13 @@ export type AccessLevel = 'ALL' | 'VIP' | 'MOD' | 'SUB'
 
 export interface Sound {
   id: string,
-  access: AccessLevel[],
+  access: AccessLevel,
   command: string,
   path: string
 }
 
 export interface NewSound {
-  access: AccessLevel[],
+  access: AccessLevel,
   command: string,
   file: File
 }

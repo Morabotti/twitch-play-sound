@@ -18,7 +18,7 @@ app.use(express.static('../client/build'))
 
 app.use('/api', EndPoints)
 
-app.use('/static', express.static(path.join(__dirname, '../static')))
+app.use('/data', express.static(path.join(__dirname, '../data')))
 
 app.get('*', (req: Request, res: Response) => {
   res.sendFile(path.resolve('..', 'client', 'build', 'index.html'))
