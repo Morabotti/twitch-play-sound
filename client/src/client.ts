@@ -1,4 +1,4 @@
-import { Sound } from './types'
+import { Sound, TwitchUser } from './types'
 
 const checkResponse = (res: Response): Response => {
   if (!res.ok) {
@@ -9,6 +9,16 @@ const checkResponse = (res: Response): Response => {
 
 export const fetchSounds = (): Promise<Sound[]> => fetch(
   '/api/sounds',
+  {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' }
+  }
+)
+  .then(checkResponse)
+  .then((res) => res.json())
+
+export const checkAuth = (): Promise<boolean> => fetch(
+  '/api/twitch/auth',
   {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' }
@@ -42,3 +52,35 @@ export const deleteSound = (id: string): Promise<Sound[]> => fetch(
 )
   .then(checkResponse)
   .then((res) => res.json())
+
+export const fetchUser = (): Promise<TwitchUser> => fetch(
+  '/api/twitch',
+  {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' }
+  }
+)
+  .then(checkResponse)
+  .then((res) => res.json())
+
+export const addUser = (
+  user: TwitchUser
+): Promise<TwitchUser> => fetch(
+  '/api/twitch',
+  {
+    method: 'POST',
+    body: JSON.stringify(user),
+    headers: { 'Content-Type': 'application/json' }
+  }
+)
+  .then(checkResponse)
+  .then((res) => res.json())
+
+export const logOut = (): Promise<Response> => fetch(
+  '/api/twitch/logout',
+  {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' }
+  }
+)
+  .then(checkResponse)

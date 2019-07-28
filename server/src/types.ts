@@ -12,3 +12,9 @@ export interface SoundRequest {
   command: string,
   path: string
 }
+
+export interface TwitchConfig {
+  username: string | null,
+  oauth: string | null,
+  channels: string[] | null
+}

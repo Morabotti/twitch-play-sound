@@ -12,3 +12,13 @@ export interface NewSound {
   command: string,
   file: File
 }
+
+export interface TwitchUser {
+  username: string | null,
+  oauth: string | null,
+  channels: string[] | null
+}
+
+export interface Config {
+  socketUrl: string
+}

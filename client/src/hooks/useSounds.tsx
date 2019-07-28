@@ -10,7 +10,7 @@ interface SoundContext {
   deleteSound: (id: string) => void
 }
 
-export const useSounds = () => {
+export const useSounds = (): SoundContext => {
   const [sounds, setSounds] = useState<Sound[]>([])
   const [loading, setLoading] = useState(true)
 

@@ -1,0 +1,4 @@
+export enum SOCKET {
+  TWITCH = 'UPDATE_TWITCH',
+  PLAYER = 'EVENT_PLAYER'
+}

@@ -9,7 +9,8 @@ import {
 
 import EndPoints from './endpoints'
 import config from './config'
-import { migrateSoundDatabase } from './migration'
+import { migrateSoundDatabase } from './datastore'
+import twitchConnection from './twitch'
 
 const app: Application = express()
 
@@ -26,5 +27,6 @@ app.get('*', (req: Request, res: Response) => {
 
 app.listen(config.port, async () => {
   await migrateSoundDatabase()
+  await twitchConnection.onStartConnect()
   console.log(`Server listening on port ${config.port}`)
 })

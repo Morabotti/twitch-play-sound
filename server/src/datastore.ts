@@ -131,3 +131,13 @@ export const deleteSound = async (
 
 export const fetchSounds = async (): Promise<Sound[]> => readSounds()
 export const migrateSoundDB = async () => setSounds([])
+
+export const migrateSoundDatabase = async () => {
+  try {
+    await fetchSounds()
+  }
+  catch (e) {
+    console.log('Migrating sound DB')
+    await migrateSoundDB()
+  }
+}

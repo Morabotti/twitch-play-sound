@@ -7,6 +7,8 @@ import SoundTable from './SoundTable'
 import NewSoundDialog from './NewSoundDialog'
 import IconHelper from './IconHelper'
 import ConnectionPage from './ConnectionPage'
+import ConnectionForm from './ConnectionForm'
+import ConnectedCard from './ConnectedCard'
 
 export {
   Navigation,
@@ -17,5 +19,7 @@ export {
   SoundTable,
   NewSoundDialog,
   IconHelper,
-  ConnectionPage
+  ConnectionPage,
+  ConnectionForm,
+  ConnectedCard
 }

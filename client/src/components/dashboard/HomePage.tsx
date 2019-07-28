@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     actionContainer: {
       marginBottom: theme.spacing(2)
+    },
+    url: {
+      textDecoration: 'none'
     }
   })
 )
@@ -27,7 +30,6 @@ const useStyles = makeStyles((theme: Theme) =>
 export default () => {
   const [isDisabled, setDisabled] = useState(false)
   const classes = useStyles()
-  console.log()
 
   return (
     <>
@@ -48,6 +50,19 @@ export default () => {
             Refresh
             <Refresh className={classes.rightIcon} />
           </Button>
+          <a
+            className={classes.url}
+            href={`${window.location.origin}/player`}
+            target='_blank'
+          >
+            <Button
+              variant='contained'
+              color='secondary'
+              className={classes.button}
+            >
+              Open player
+            </Button>
+          </a>
         </div>
         <TextField
           required
