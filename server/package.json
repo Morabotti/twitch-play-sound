@@ -12,9 +12,9 @@
     "start": "node --inspect=5858 -r ts-node/register ./src/index.ts",
     "dev": "nodemon",
     "build": "tsc",
-    "build:start": "tsc && node dist/server.js",
+    "build:start": "tsc && node dist/index.js",
     "production": "cd ../client & npm run build && cd ../server & npm run build:start",
-    "server": "node dist/server.js",
+    "server": "node dist/index.js",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "format": "eslint \"src/**/*.{ts,tsx}\" --fix"
   },
