@@ -65,10 +65,11 @@ export default ({
     )
   }
 
-  const _playSound = (url: string) => () => {
-    const fixed = `/${url}`
+  const _playSound = (sound: Sound) => () => {
+    const fixed = `/${sound.path}`
     const audio = new Audio(fixed)
-    audio.volume = 0.5
+    const volumeLevel = (sound.level / 100)
+    audio.volume = 0.75 * volumeLevel
     audio.play()
   }
 
@@ -99,7 +100,7 @@ export default ({
                 <Tooltip placement='top' title='Play sound'>
                   <IconButton
                     className={clsx(classes.small, classes.iconOffset)}
-                    onClick={_playSound(sound.path)}
+                    onClick={_playSound(sound)}
                   >
                     <Play />
                   </IconButton>

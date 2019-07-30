@@ -65,7 +65,7 @@ export const fetchUser = (): Promise<TwitchUser> => fetch(
 
 export const addUser = (
   user: TwitchUser
-): Promise<TwitchUser> => fetch(
+): Promise<Response> => fetch(
   '/api/twitch',
   {
     method: 'POST',
@@ -74,7 +74,6 @@ export const addUser = (
   }
 )
   .then(checkResponse)
-  .then((res) => res.json())
 
 export const logOut = (): Promise<Response> => fetch(
   '/api/twitch/logout',

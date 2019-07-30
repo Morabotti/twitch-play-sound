@@ -6,7 +6,7 @@ import * as client from '../client'
 interface SoundContext {
   sounds: Sound[],
   loading: boolean,
-  addSound: (sound: NewSound) => void,
+  addSound: (sound: NewSound) => Promise<void>,
   deleteSound: (id: string) => void
 }
 
@@ -25,6 +25,7 @@ export const useSounds = (): SoundContext => {
     form.append('access', sound.access)
     form.append('command', sound.command)
     form.append('sound', sound.file)
+    form.append('level', sound.level.toString())
     return client.addSound(form)
       .then(s => setSounds([...sounds, s]))
   }

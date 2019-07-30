@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { AccessLevel, NewSound } from '../../types'
 import accessLevel from '../../enums/accessLevels'
 import { customColors } from '../../theme'
+import { IconHelper } from '.'
 
 import {
   Dialog,
@@ -18,11 +19,19 @@ import {
   MenuItem,
   createStyles,
   makeStyles,
-  Theme
+  Theme,
+  Typography as T,
+  Grid,
+  Input,
+  Slider,
+  IconButton,
+  Tooltip
 } from '@material-ui/core'
 
 import {
-  FileUploadOutline
+  FileUploadOutline,
+  VolumeHigh,
+  Play
 } from 'mdi-material-ui'
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -38,6 +47,18 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     icon: {
       marginLeft: theme.spacing(1)
+    },
+    replay: {
+      marginRight: theme.spacing(2)
+    },
+    menuitem: {
+      verticalAlign: 'middle'
+    },
+    menuItemText: {
+      display: 'inline-flex',
+      verticalAlign: 'super',
+      fontWeight: 400,
+      marginLeft: theme.spacing(1)
     }
   })
 )
@@ -52,6 +73,7 @@ interface State {
   access: AccessLevel,
   command: string,
   file: File | null,
+  level: number | number[],
   error: boolean
 }
 
@@ -59,6 +81,7 @@ const getInitialState = (): State => ({
   access: 'ALL',
   command: '',
   file: null,
+  level: 50,
   error: false
 })
 
@@ -80,7 +103,8 @@ export default ({
       onAdd({
         access: state.access,
         command: state.command,
-        file: state.file
+        file: state.file,
+        level: Number(state.level)
       })
         .then(() => {
           onClose()
@@ -92,6 +116,24 @@ export default ({
             error: true
           })
         })
+    }
+  }
+
+  const handleBlur = () => {
+    if (state.level < 0) {
+      setState({ ...state, level: 0 })
+    }
+    else if (state.level > 100) {
+      setState({ ...state, level: 100 })
+    }
+  }
+
+  const _playSound = () => {
+    if (state.file) {
+      const audio = new Audio(window.URL.createObjectURL(state.file))
+      const volumeLevel = (Number(state.level) / 100)
+      audio.volume = 0.75 * volumeLevel
+      audio.play()
     }
   }
 
@@ -141,7 +183,9 @@ export default ({
             }
           >
             {accessLevel.map(s => (
-              <MenuItem key={s} value={s}>{s}</MenuItem>
+              <MenuItem key={s} value={s} className={classes.menuitem}>
+                <IconHelper access={s} /> <T variant='h4' className={classes.menuItemText}>{s}</T>
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -171,6 +215,53 @@ export default ({
             )}
           </Button>
         </label>
+        {state.file !== null && (
+          <div>
+            <T id='input-slider' gutterBottom>
+              Volume
+            </T>
+            <Grid container spacing={2} alignItems='center'>
+              <Grid item>
+                <VolumeHigh />
+              </Grid>
+              <Grid item xs>
+                <Slider
+                  value={typeof state.level === 'number' ? state.level : 0}
+                  onChange={(e, v) => {
+                    if (state.level !== v) {
+                      setState({ ...state, level: v })
+                    }
+                  }}
+                  step={5}
+                  aria-labelledby='input-slider'
+                />
+              </Grid>
+              <Grid item>
+                <Input
+                  className={classes.input}
+                  value={state.level}
+                  margin='dense'
+                  onChange={e => setState({ ...state, level: Number(e.target.value) })}
+                  onBlur={handleBlur}
+                  inputProps={{
+                    step: 10,
+                    min: 0,
+                    max: 100,
+                    type: 'number',
+                    'aria-labelledby': 'input-slider'
+                  }}
+                />
+              </Grid>
+              <Grid item className={classes.replay}>
+                <Tooltip placement='top' title='Test Sound Level'>
+                  <IconButton color='primary' onClick={_playSound}>
+                    <Play />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
+            </Grid>
+          </div>
+        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={_handleClose} color='secondary'>

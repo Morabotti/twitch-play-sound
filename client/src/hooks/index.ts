@@ -1,9 +1,9 @@
 import useRouter from './useRouter'
-import { useUser } from './useUser'
 import { useSounds } from './useSounds'
+import { useAppContext } from './useAppContext'
 
 export {
   useRouter,
-  useUser,
-  useSounds
+  useSounds,
+  useAppContext
 }

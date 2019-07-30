@@ -4,13 +4,15 @@ export interface Sound {
   id: string,
   access: AccessLevel,
   command: string,
-  path: string
+  path: string,
+  level: number
 }
 
 export interface SoundRequest {
   access: AccessLevel,
   command: string,
-  path: string
+  path: string,
+  level: number
 }
 
 export interface TwitchConfig {

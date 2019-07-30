@@ -2,14 +2,13 @@ import React from 'react'
 import { Layout, ConnectionForm, ConnectedCard } from '.'
 import { customColors } from '../../theme'
 import clsx from 'clsx'
-import { useUser } from '../../hooks'
+import { useAppContext } from '../../hooks'
 
 import {
   createStyles,
   makeStyles,
   Theme,
-  Chip,
-  LinearProgress
+  Chip
 } from '@material-ui/core'
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -32,16 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default () => {
   const classes = useStyles()
-
-  const {
-    user,
-    loading,
-    auth,
-    addUser,
-    logOut
-  } = useUser()
-
-  console.log(auth)
+  const { user, auth, login, logout } = useAppContext()
 
   return (
     <>
@@ -55,12 +45,10 @@ export default () => {
         />
       </Layout>
       <Layout title={auth ? 'You are logged in as' : 'Give access to Twitch'}>
-        {loading ? (
-          <LinearProgress color='secondary' className={classes.loading} />
-        ) : !auth ? (
-          <ConnectionForm onAuth={addUser} />
+        {!auth || !user ? (
+          <ConnectionForm onAuth={login} />
         ) : (
-          <ConnectedCard user={user} onLogOut={logOut} />
+          <ConnectedCard user={user} onLogOut={logout} />
         )}
       </Layout>
     </>

@@ -104,24 +104,25 @@ class TwitchConnection {
     if (message.charAt(0) === '!') {
       const sounds = await fetchSounds()
       for (const sound of sounds) {
-        if (message.includes(sound.command)) {
+        if (message === sound.command) {
+          const raw = user['badges-raw']
           switch (sound.access) {
             case 'ALL':
-              dispatchSocket(SOCKET.PLAYER, sound.path)
+              dispatchSocket(SOCKET.PLAYER, sound)
               break
             case 'MOD':
               if (user.mod) {
-                dispatchSocket(SOCKET.PLAYER, sound.path)
+                dispatchSocket(SOCKET.PLAYER, sound)
               }
               break
             case 'SUB':
-              if (user.subscriber || user.mod) {
-                dispatchSocket(SOCKET.PLAYER, sound.path)
+              if (user.subscriber || user.mod || (raw && raw.includes('VIP'))) {
+                dispatchSocket(SOCKET.PLAYER, sound)
               }
               break
             case 'VIP':
-              if ((user.badges && user.badges.premium) || user.mod) {
-                dispatchSocket(SOCKET.PLAYER, sound.path)
+              if ((user.badges && user.badges.premium) || user.mod || (raw && raw.includes('VIP'))) {
+                dispatchSocket(SOCKET.PLAYER, sound)
               }
               break
           }

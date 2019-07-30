@@ -72,7 +72,7 @@ export const addSound = async (
         ...sound,
         id: uuid(sound.command, config.uuidNameSpace)
       }
-      await setSounds([...sounds, newSound])
+      await setSounds([ ...sounds, newSound ])
 
       return newSound
     }

@@ -14,11 +14,12 @@ router.use(bodyParser.json())
 
 router.post('/sounds', soundUpload.single('sound'), async (req: Request, res: Response) => {
   try {
-    const { access, command } = req.body
+    const { access, command, level } = req.body
     const newSong = await addSound({
       access,
       command,
-      path: req.file.path
+      path: req.file.path,
+      level: Number(level)
     })
 
     return res.status(200).send(newSong)
