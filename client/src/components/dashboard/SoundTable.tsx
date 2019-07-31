@@ -3,7 +3,8 @@ import { IconHelper } from '.'
 import clsx from 'clsx'
 
 import {
-  Sound
+  Sound,
+  EditSound
 } from '../../types'
 
 import {
@@ -49,13 +50,15 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
   sounds: Sound[],
   loading: boolean,
-  onDelete: (id: string) => void
+  onDelete: (id: string) => void,
+  onEdit: (sound: EditSound | null) => void
 }
 
 export default ({
   sounds,
   loading,
-  onDelete
+  onDelete,
+  onEdit
 }: Props) => {
   const classes = useStyles()
 
@@ -108,7 +111,10 @@ export default ({
                 <Tooltip placement='top' title='Edit sound'>
                   <IconButton
                     className={clsx(classes.small, classes.iconOffset)}
-                    onClick={() => null}
+                    onClick={() => onEdit({
+                      ...sound,
+                      file: null
+                    })}
                   >
                     <Pencil />
                   </IconButton>

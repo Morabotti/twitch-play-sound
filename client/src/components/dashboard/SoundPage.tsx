@@ -1,7 +1,13 @@
 import React, { useState } from 'react'
 import { useSounds } from '../../hooks/useSounds'
+import { EditSound } from '../../types'
 
-import { Layout, SoundTable, NewSoundDialog } from '.'
+import {
+  Layout,
+  SoundTable,
+  NewSoundDialog,
+  EditSoundDialog
+} from '.'
 
 import {
   Tooltip,
@@ -26,14 +32,16 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default () => {
   const classes = useStyles()
-  const [ isNewDialogOpen, setIsNewDialogOpen ] = useState(false)
-
   const {
     sounds,
     loading,
     addSound,
+    editSound,
     deleteSound
   } = useSounds()
+
+  const [ isNewDialogOpen, setIsNewDialogOpen ] = useState(false)
+  const [ editableSound, setEditableSound ] = useState<null | EditSound>(null)
 
   return (
     <Layout title='Sound Manager'>
@@ -41,6 +49,7 @@ export default () => {
         sounds={sounds}
         loading={loading}
         onDelete={deleteSound}
+        onEdit={setEditableSound}
       />
       <div className={classes.action}>
         <Tooltip title='Add new sound'>
@@ -56,6 +65,13 @@ export default () => {
         isOpen={isNewDialogOpen}
         onClose={() => setIsNewDialogOpen(false)}
         onAdd={addSound}
+      />
+      <EditSoundDialog
+        isOpen={editableSound !== null}
+        onClose={() => setEditableSound(null)}
+        sound={editableSound}
+        onEdit={editSound}
+        setSound={setEditableSound}
       />
     </Layout>
   )

@@ -1,4 +1,4 @@
-import { Sound, TwitchUser } from './types'
+import { Sound, TwitchUser, NewSoundNoUpload } from './types'
 
 const checkResponse = (res: Response): Response => {
   if (!res.ok) {
@@ -42,6 +42,37 @@ export const addSound = (
     .then(checkResponse)
     .then((res) => res.json())
 }
+
+export const editSound = (
+  id: string,
+  data: FormData
+): Promise<Sound> => {
+  const options = {
+    method: 'PUT',
+    body: data,
+    headers: { 'content-type': 'multipart/form-data' }
+  }
+
+  delete options.headers['content-type']
+
+  return fetch('/api/sounds/' + id + '/upload', options)
+    .then(checkResponse)
+    .then((res) => res.json())
+}
+
+export const editSoundNoUpload = (
+  id: string,
+  sound: NewSoundNoUpload
+): Promise<Sound> => fetch(
+  '/api/sounds/' + id + '/standard',
+  {
+    method: 'PUT',
+    body: JSON.stringify(sound),
+    headers: { 'Content-Type': 'application/json' }
+  }
+)
+  .then(checkResponse)
+  .then((res) => res.json())
 
 export const deleteSound = (id: string): Promise<Sound[]> => fetch(
   '/api/sounds/' + id,

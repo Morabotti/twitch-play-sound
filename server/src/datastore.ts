@@ -5,6 +5,7 @@ import * as uuid from 'uuid/v5'
 import config from './config'
 
 import { Sound, SoundRequest } from './types'
+import { deleteFile as deleteUtil } from './utils'
 
 const fileSongs = './db/db-sounds.json'
 
@@ -88,11 +89,26 @@ export const addSound = async (
 
 export const updateSound = async (
   id: string,
-  sound: SoundRequest
+  sound: SoundRequest,
+  hasNewSound: boolean
 ): Promise<Sound> => {
   try {
     const oldSound = await findSoundById(id)
     const soundList = await readSounds()
+
+    const isFree = await isCommandFree(sound.command)
+
+    if (sound.command !== oldSound.command && !isFree) {
+      if (hasNewSound) {
+        deleteUtil(sound.path)
+      }
+      throw new Error('This command is already taken')
+    }
+    else {
+      if (hasNewSound) {
+        deleteUtil(oldSound.path)
+      }
+    }
 
     const newSound: Sound = {
       id: oldSound.id,

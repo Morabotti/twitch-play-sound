@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Sound, NewSound } from '../types'
+import { Sound, NewSound, EditSound } from '../types'
 
 import * as client from '../client'
 
@@ -7,6 +7,7 @@ interface SoundContext {
   sounds: Sound[],
   loading: boolean,
   addSound: (sound: NewSound) => Promise<void>,
+  editSound: (sound: EditSound) => Promise<void>,
   deleteSound: (id: string) => void
 }
 
@@ -35,6 +36,26 @@ export const useSounds = (): SoundContext => {
       .then(sounds => setSounds(sounds))
   }
 
+  const editSound = (sound: EditSound) => {
+    if (sound.file) {
+      const form = new FormData()
+      form.append('access', sound.access)
+      form.append('command', sound.command)
+      form.append('level', sound.level.toString())
+      form.append('sound', sound.file)
+      return client.editSound(sound.id, form)
+        .then(s => setSounds(sounds.map(i => i.id === s.id ? s : i)))
+    }
+    else {
+      return client.editSoundNoUpload(sound.id, {
+        access: sound.access,
+        command: sound.command,
+        level: sound.level
+      })
+        .then(s => setSounds(sounds.map(i => i.id === s.id ? s : i)))
+    }
+  }
+
   useEffect(() => {
     getSounds()
   }, [])
@@ -43,6 +64,7 @@ export const useSounds = (): SoundContext => {
     sounds,
     loading,
     addSound,
+    editSound,
     deleteSound
   }
 }

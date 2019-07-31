@@ -9,6 +9,7 @@ import IconHelper from './IconHelper'
 import ConnectionPage from './ConnectionPage'
 import ConnectionForm from './ConnectionForm'
 import ConnectedCard from './ConnectedCard'
+import EditSoundDialog from './EditSoundDialog'
 
 export {
   Navigation,
@@ -21,5 +22,6 @@ export {
   IconHelper,
   ConnectionPage,
   ConnectionForm,
-  ConnectedCard
+  ConnectedCard,
+  EditSoundDialog
 }

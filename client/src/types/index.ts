@@ -15,6 +15,21 @@ export interface NewSound {
   level: number
 }
 
+export interface NewSoundNoUpload {
+  access: AccessLevel,
+  command: string,
+  level: number
+}
+
+export interface EditSound {
+  id: string,
+  access: AccessLevel,
+  command: string,
+  file: File | null,
+  path: string,
+  level: number
+}
+
 export interface TwitchUser {
   username: string | null,
   oauth: string | null,

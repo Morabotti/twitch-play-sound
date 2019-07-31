@@ -2,7 +2,8 @@
 import * as bodyParser from 'body-parser'
 
 import { Request, Response, Router } from 'express'
-import { fetchSounds, addSound, deleteSound } from './datastore'
+import { fetchSounds, addSound, deleteSound, updateSound, findSoundById } from './datastore'
+import { SoundRequest } from './types'
 
 import soundUpload from './soundupload'
 import twitchConnection from './twitch'
@@ -47,6 +48,48 @@ router.delete('/sounds/:id', async (req: Request, res: Response) => {
   try {
     const sounds = await deleteSound(req.params.id)
     return res.status(200).send(sounds)
+  }
+  catch (e) {
+    return res
+      .status(500)
+      .send(e)
+  }
+})
+
+router.put('/sounds/:id/upload', soundUpload.single('sound'), async (req: Request, res: Response) => {
+  try {
+    const { access, command, level } = req.body
+    const updated: SoundRequest = {
+      access,
+      command,
+      path: req.file.path,
+      level: Number(level)
+    }
+
+    const sound = await updateSound(req.params.id, updated, true)
+    return res.status(200).send(sound)
+  }
+  catch (e) {
+    return res
+      .status(500)
+      .send(e)
+  }
+})
+
+router.put('/sounds/:id/standard', async (req: Request, res: Response) => {
+  try {
+    const { access, command, level } = req.body
+    const oldSound = await findSoundById(req.params.id)
+
+    const updated: SoundRequest = {
+      access,
+      command,
+      path: oldSound.path,
+      level: Number(level)
+    }
+
+    const sound = await updateSound(req.params.id, updated, false)
+    return res.status(200).send(sound)
   }
   catch (e) {
     return res
