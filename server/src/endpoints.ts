@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser'
 
 import { Request, Response, Router } from 'express'
 import { fetchSounds, addSound, deleteSound, updateSound, findSoundById } from './datastore'
+import { fetchUsers, addUser, deleteUser, updateUser } from './users'
 import { SoundRequest } from './types'
 
 import soundUpload from './soundupload'
@@ -128,6 +129,56 @@ router.post('/twitch', async (req: Request, res: Response) => {
       channels: req.body.channels
     })
     return res.status(200).send(config)
+  }
+  catch (e) {
+    return res
+      .status(500)
+      .send(e)
+  }
+})
+
+router.get('/users', async (req: Request, res: Response) => {
+  try {
+    const users = await fetchUsers()
+    return res.status(200).send(users)
+  }
+  catch (e) {
+    return res
+      .status(500)
+      .send(e)
+  }
+})
+
+router.post('/users', async (req: Request, res: Response) => {
+  try {
+    const { username, flags } = req.body
+    const user = await addUser({ username, flags })
+    return res.status(200).send(user)
+  }
+  catch (e) {
+    return res
+      .status(500)
+      .send(e)
+  }
+})
+
+router.put('/users/:id', async (req: Request, res: Response) => {
+  try {
+    const { username, flags, id } = req.body
+    const user = await updateUser(req.params.id, { id, username, flags })
+    return res.status(200).send(user)
+  }
+  catch (e) {
+    return res
+      .status(500)
+      .send(e)
+  }
+})
+
+router.delete('/users/:id', async (req: Request, res: Response) => {
+  try {
+    const users = await deleteUser(req.params.id)
+    return res.status(200).send(users)
   }
   catch (e) {
     return res

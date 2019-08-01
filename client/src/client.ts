@@ -1,4 +1,4 @@
-import { Sound, TwitchUser, NewSoundNoUpload } from './types'
+import { Sound, TwitchUser, NewSoundNoUpload, User, NewUser } from './types'
 
 const checkResponse = (res: Response): Response => {
   if (!res.ok) {
@@ -88,6 +88,53 @@ export const fetchUser = (): Promise<TwitchUser> => fetch(
   '/api/twitch',
   {
     method: 'GET',
+    headers: { 'Content-Type': 'application/json' }
+  }
+)
+  .then(checkResponse)
+  .then((res) => res.json())
+
+export const fetchUsers = (): Promise<User[]> => fetch(
+  '/api/users',
+  {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' }
+  }
+)
+  .then(checkResponse)
+  .then((res) => res.json())
+
+export const addUsers = (
+  user: NewUser
+): Promise<User> => fetch(
+  '/api/users',
+  {
+    method: 'POST',
+    body: JSON.stringify(user),
+    headers: { 'Content-Type': 'application/json' }
+  }
+)
+  .then(checkResponse)
+  .then((res) => res.json())
+
+export const deleteUsers = (id: string): Promise<User[]> => fetch(
+  '/api/users/' + id,
+  {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' }
+  }
+)
+  .then(checkResponse)
+  .then((res) => res.json())
+
+export const editUser = (
+  id: string,
+  user: NewUser
+): Promise<User> => fetch(
+  '/api/users/' + id,
+  {
+    method: 'PUT',
+    body: JSON.stringify(user),
     headers: { 'Content-Type': 'application/json' }
   }
 )

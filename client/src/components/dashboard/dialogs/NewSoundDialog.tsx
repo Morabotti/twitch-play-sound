@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 
-import { AccessLevel, NewSound } from '../../types'
-import accessLevel from '../../enums/accessLevels'
-import { customColors } from '../../theme'
-import { IconHelper } from '.'
+import { AccessLevel, NewSound } from '../../../types'
+import accessLevel from '../../../enums/accessLevels'
+import { customColors } from '../../../theme'
+import { IconHelper } from '../'
 
 import {
   Dialog,

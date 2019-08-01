@@ -3,8 +3,9 @@ import { Client, ChatUserstate } from 'tmi.js'
 import { TwitchConfig } from './types'
 import config from './config'
 import { dispatchSocket } from './socket'
-import { SOCKET } from './enum'
+import { SOCKET, PERMISSIONS } from './enum'
 import { fetchSounds } from './datastore'
+import { findUser } from './users'
 
 const fileConfig = './db/db-twitch.json'
 
@@ -106,22 +107,35 @@ class TwitchConnection {
       for (const sound of sounds) {
         if (message === sound.command) {
           const raw = user['badges-raw']
+          const isUser = await findUser(user.username)
+
+          if (isUser && isUser.flags.includes(PERMISSIONS.BANNED)) {
+            return
+          }
+
           switch (sound.access) {
             case 'ALL':
               dispatchSocket(SOCKET.PLAYER, sound)
               break
             case 'MOD':
-              if (user.mod) {
+              if (user.mod || (isUser && isUser.flags.includes(PERMISSIONS.ALL_ACCESS))) {
                 dispatchSocket(SOCKET.PLAYER, sound)
               }
               break
             case 'SUB':
-              if (user.subscriber || user.mod || (raw && raw.includes('VIP'))) {
+              if (user.subscriber
+                || user.mod
+                || (raw && raw.toLowerCase().includes('vip'))
+                || (isUser && isUser.flags.includes(PERMISSIONS.ALL_ACCESS))
+              ) {
                 dispatchSocket(SOCKET.PLAYER, sound)
               }
               break
             case 'VIP':
-              if ((user.badges && user.badges.premium) || user.mod || (raw && raw.includes('VIP'))) {
+              if (user.mod
+                || (raw && raw.toLowerCase().includes('vip'))
+                || (isUser && isUser.flags.includes(PERMISSIONS.ALL_ACCESS))
+              ) {
                 dispatchSocket(SOCKET.PLAYER, sound)
               }
               break

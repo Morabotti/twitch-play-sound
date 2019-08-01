@@ -1,9 +1,9 @@
 import React, { Dispatch, SetStateAction, Fragment } from 'react'
 
-import { EditSound } from '../../types'
-import accessLevel from '../../enums/accessLevels'
-import { customColors } from '../../theme'
-import { IconHelper } from '.'
+import { EditSound } from '../../../types'
+import accessLevel from '../../../enums/accessLevels'
+import { customColors } from '../../../theme'
+import { IconHelper } from '../'
 
 import {
   Dialog,

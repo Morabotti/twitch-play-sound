@@ -1,4 +1,5 @@
 export type AccessLevel = 'ALL' | 'VIP' | 'MOD' | 'SUB'
+export type UserFlags = 'ban' | 'all-access'
 
 export interface Sound {
   id: string,
@@ -34,6 +35,17 @@ export interface TwitchUser {
   username: string | null,
   oauth: string | null,
   channels: string[] | null
+}
+
+export interface User {
+  id: string,
+  username: string,
+  flags: UserFlags[]
+}
+
+export interface NewUser {
+  username: string,
+  flags: UserFlags[]
 }
 
 export interface Config {
