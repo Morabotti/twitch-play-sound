@@ -130,7 +130,7 @@ export const findUser = async (
   }
 
   const users = await readUsers()
-  const found = users.find(s => s.username === username)
+  const found = users.find(s => s.username.toLowerCase() === username.toLowerCase())
   if (!found) {
     return null
   }
